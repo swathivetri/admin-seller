@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <body>
+     </head>
+        <body>
+<form onsubmit ="saveToLocalStorage(event)"></form>
+<h1>SELLERS ADMIN PAGE</h1>
+    <label for="Number"><strong>Selling Price:</Strong></labe>
+    <input type="number" id="Price" name="fnumber">
+    <label for="text"><strong>Product Name:</strong></label>
+    <input type="text" id="fmenu" name="fname">
+    <label for="Choose category"><strong>Choose Category:</strong></label>
+    <select/required>
+    <option>Electronic Items</option>
+    <option>Food Items</option>
+    <option>Skincare Items</option>
+</select>
+    <button>Add Product</button>
+    </form>
+
+<h1>Products</h1>
+
+<ul>
+  <li><b>Electronic Items</b></li>
+  <li><b>Food Items</b></li>
+  <li><b>Skincare Items</b></li>
+</ul>
+<ul id="ListOfuser"></ul>
+
+<script>
+  function saveToLocalStorage(event) {
+  event.preventDefault();
+  const sellingprice = event.target.sellingprice.value;
+  const productname = event.target.productname.value;
+  const choosecategory = event.target.choosecategory.value;
+  const AddProduct = event.target.AddProduct.value;
+  //localStorage.setItem('name', name);
+  //localStorage.setItem('emailId', email);
+  //localStorage.setItem('phonenumber', phonenumber)
+  const obj= {
+      sellingprice,
+      productname,
+      choosecategory,
+      addproduct
+  }
+  axios.post("https://crudcrud.com/Dashboard/1095e15ec694498291054f4d5f03c2e8/AdminSeller",obj)
+  .then((response) => {
+      showNewUserOnScreen(response.data)
+      console.log(response)
+  })
+  .catch((err)=> {
+      console.log(err)
+  })
+      window.localStorage.setItem(obj,JSON.stringify(obj))
+      showUserOnScreen(obj)
+  }
+  window.addEventListener("DOMContentLoaded",() => {
+      axios.get("https://crudcrud.com/Dashboard/1095e15ec694498291054f4d5f03c2e8/AdminSeller")
+      .then((response)=> {
+       console.log(response)
+  
+      })
+      .catch((err)=> {
+          console.log(err)
+      })
+  })
+  window.localStorage.setItem(obj,JSON.stringify(obj))
+      showUserOnScreen(obj)
+  function showUserOnScreen(myobj){
+      const parentElem = document.getElementById('listOfitems')
+      const childElem = document.createElement('li')
+      childElem.textContent = obj.sellingprice + ' - ' + obj.productname + ' - ' + obj.choosecategory + ' - ' +obj.AddProduct
+      const deleteBtn=document.createElement("input");
+      deleteBtn.type="button"
+      deleteBtn.value="Delete"
+      deleteBtn.onclick= () => {
+          localStorage.removeItem(obj)
+          parentElem.removeChild(childElem)
+          document.getElementById('sellingpriceInputTag').value = obj.sellingprice
+          document.getElementById('productnameInputTag').value = obj.productname
+          document.getElementById('choosecategoryInputTag').value = obj.choosecategory
+          document.getElementById('addproductInputTag').value = obj.addproduct
+      }
+      const editBtn = document.createElement("input");
+      editBtn.type="button"
+      editBtn.value ='Edit'
+      editBtn.onclick= () => {
+          localStorage.removeItem(obj)
+          parentElem.removeChild(childElem)
+          document.getElementById('sellingpriceInputTag').value = obj.sellingprice
+          document.getElementById('productnameInputTag').value = obj.productname
+          document.getElementById('choosecategoryInputTag').value = obj.choosecategory
+          document.getElementById('addproductInputTag').value = obj.addproduct
+  }
+      childElem.appendChild(deleteBtn)
+      childElem.appendChild(editBtn)
+      parentElem.appendChild(childElem)
+}
+</script>
+<style>
+    label{
+      background-color:moccasin;
+      font-size: larger;
+      border:2px salmon;
+    }
+     input{
+          border: 2px solid orange;
+      }
+  input{
+      padding:10px;
+     width:200px;
+     background-color:antiquewhite;
+  }
+  h1{
+        border-top: 0cap;
+        text-align: center;
+         background-color: pink;
+         border-width: 10;
+  
+  }
+  li {
+    font-size: 50px;
+    background-image: url("img_tree.gif"), url("paper.gif");
+    background-color: #cccccc;
+  
+  }
+  </style>
+
+</body>
+</html>
